@@ -53,5 +53,4 @@ public class Specialist implements Serializable {
         this.name = name;
         this.reservationsList = reservationsList;
     }
-
 }

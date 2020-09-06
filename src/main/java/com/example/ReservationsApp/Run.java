@@ -1,7 +1,5 @@
 package com.example.ReservationsApp;
 
-import com.example.ReservationsApp.dao.SpecialistsDAO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

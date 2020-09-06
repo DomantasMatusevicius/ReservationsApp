@@ -4,8 +4,6 @@
 <%@page import="com.example.ReservationsApp.data.Specialist" %>
 <%@page import="java.util.Calendar" %>
 <%@page import="java.text.SimpleDateFormat" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
     <head>

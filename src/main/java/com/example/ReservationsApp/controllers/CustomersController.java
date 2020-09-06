@@ -7,23 +7,14 @@ import com.example.ReservationsApp.data.Specialist;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.security.SecureRandom;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
 
 @Controller
 public class CustomersController {
@@ -87,7 +78,7 @@ public class CustomersController {
         int inLine = waitingLine.getReservationsList().indexOf(value);
 
         Date date = new Date();
-        long different  = value.getVisitDate().getTime() - date.getTime();
+        long different = value.getVisitDate().getTime() - date.getTime();
 
         mav.addObject("value", value);
         mav.addObject("different", different);
