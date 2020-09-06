@@ -7,6 +7,7 @@ import com.example.ReservationsApp.data.Specialist;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +19,14 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 @Controller
-public class ReservationsController {
+public class CustomersController {
 
     @Autowired
     SpecialistsDAO specialistsDAO;
@@ -45,15 +48,6 @@ public class ReservationsController {
         return mav;
     }
 
-    @GetMapping("/makeReservation")
-    public ModelAndView makeReservation(@RequestParam(name = "specialistId", required = false) Integer specialistId) {
-        ModelAndView mav = new ModelAndView("makeReservation");
-        if (specialistId != null) {
-            Specialist value = specialistsDAO.getOne(specialistId);
-            mav.addObject("value", value);
-        }
-        return mav;
-    }
 
     @PostMapping("saveReservation")
     public String saveReservation(
@@ -68,8 +62,18 @@ public class ReservationsController {
         value.setSpecialist(specialist);
         value.setVisitDate(visitDate);
         value.setReservationCode(genCode);
+        value.setReservationStarted(false);
+        value.setReservationEnded(false);
 
         reservationsDAO.save(value);
+        return "redirect:/registrationCompleted?genCode=" + genCode;
+    }
+
+
+    @RequestMapping("checkReservation")
+    public String checkReservation(
+            @RequestParam(name = "genCode") String genCode
+    ) {
         return "redirect:/registrationCompleted?genCode=" + genCode;
     }
 
@@ -77,12 +81,17 @@ public class ReservationsController {
     public ModelAndView registrationCompleted(@RequestParam(name = "genCode") String genCode) {
         ModelAndView mav = new ModelAndView("registrationCompleted");
         Reservations value = reservationsDAO.getOne(genCode);
+        Specialist waitingLine = specialistsDAO.getOne(value.getSpecialist().getId());
+        waitingLine.getReservationsList().sort(Comparator.comparing(Reservations::getVisitDate));
+
+        int inLine = waitingLine.getReservationsList().indexOf(value);
 
         Date date = new Date();
         long different  = value.getVisitDate().getTime() - date.getTime();
 
         mav.addObject("value", value);
         mav.addObject("different", different);
+        mav.addObject("inLine", inLine);
 
         return mav;
     }
@@ -90,7 +99,13 @@ public class ReservationsController {
     @RequestMapping(value = "reservationCancel", method = {RequestMethod.GET, RequestMethod.POST})
     public String reservationCancel(@RequestParam(name = "reservationCode") String reservationCode) {
         reservationsDAO.deleteById(reservationCode);
-        return "redirect:/";
+        return "redirect:/reservationCancelled";
+    }
+
+    @GetMapping("/reservationCancelled")
+    public ModelAndView reservationCancelled() {
+        ModelAndView mav = new ModelAndView("reservationCancelled");
+        return mav;
     }
 
 }

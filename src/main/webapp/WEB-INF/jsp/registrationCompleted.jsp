@@ -15,6 +15,8 @@
 
             long different = (long) request.getAttribute("different");
 
+            int inLine = (int) request.getAttribute("inLine");
+
             long secondsInMilli = 1000;
             long minutesInMilli = secondsInMilli * 60;
             long hoursInMilli = minutesInMilli * 60;
@@ -32,33 +34,33 @@
             long elapsedSeconds = different / secondsInMilli;
         %>
 
-
-
-        <div class="col-md-8">
-        <br><br>
+        <div class="col-md-10">
+        <br>
         Below you can find the information for upcoming reservation. <b>Please save the reservation code in order to check your reservation.</b><br><br>
         <table class="table">
             <thead class="thead-dark">
                 <tr>
-                    <th><b>Reservation code</b></td>
+                    <th>Reservation code</td>
                     <th>Specialist</td>
                     <th>Visit date</td>
                     <th>Time left until visit</td>
+                    <th>Visits in line before you</th>
                     <th></th>
                 </tr>
             <tbody>
                 <tr>
-                    <td><%=reservation.getReservationCode()%></td>
+                    <td><b><%=reservation.getReservationCode()%></b></td>
                     <td><%=reservation.getSpecialist().getName()%></td>
                     <td><%=reservation.getVisitDate()%></td>
-                    <td><%=elapsedDays%> d, <%=elapsedHours%> h, <%=elapsedMinutes%> min, <%=elapsedSeconds%> sec</td>
+                    <td><%=elapsedDays%> d, <%=elapsedHours%> h, <%=elapsedMinutes%> min</td>
+                    <td><%=inLine%> visits</td>
                     <td><a href="/reservationCancel?reservationCode=<%=reservation.getReservationCode()%>">Cancel visit</a>
                 </tr>
             </tbody>
         </table>
 
 
-        <br><br><a href="/">Back</a>
+        <br><a href="/">Back</a>
         </div>
     </body>
 </html>

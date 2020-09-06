@@ -22,14 +22,37 @@ public class Reservations implements Serializable {
     @Id
     @Column(name = "reservation_code")
     private String reservationCode;
+    @Column(name = "reservation_started")
+    private Boolean reservationStarted;
+    @Column(name = "reservation_ended")
+    private Boolean reservationEnded;
+
 
     public Reservations() {
     }
 
-    public Reservations(Specialist specialist, Date visitDate, String reservationCode) {
+    public Reservations(Specialist specialist, Date visitDate, String reservationCode, Boolean reservationStarted, Boolean reservationEnded) {
         this.specialist = specialist;
         this.visitDate = visitDate;
         this.reservationCode = reservationCode;
+        this.reservationStarted = reservationStarted;
+        this.reservationEnded = reservationEnded;
+    }
+
+    public Boolean getReservationStarted() {
+        return reservationStarted;
+    }
+
+    public void setReservationStarted(Boolean reservationStarted) {
+        this.reservationStarted = reservationStarted;
+    }
+
+    public Boolean getReservationEnded() {
+        return reservationEnded;
+    }
+
+    public void setReservationEnded(Boolean reservationEnded) {
+        this.reservationEnded = reservationEnded;
     }
 
     public String getReservationCode() {
@@ -59,9 +82,11 @@ public class Reservations implements Serializable {
     @Override
     public String toString() {
         return "Reservations{" +
-                "specialist=" + specialist.toString() +
+                "specialist=" + specialist +
                 ", visitDate=" + visitDate +
                 ", reservationCode='" + reservationCode + '\'' +
+                ", reservationStarted=" + reservationStarted +
+                ", reservationEnded=" + reservationEnded +
                 '}';
     }
 }
