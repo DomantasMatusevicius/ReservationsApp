@@ -1,4 +1,4 @@
-<% response.addHeader("Refresh","30"); %>
+<% response.addHeader("Refresh","5"); %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.List" %>
 <%@page import="com.example.ReservationsApp.data.Reservations" %>
@@ -49,7 +49,7 @@
             </tbody>
         </table>
 
-        <hr><h6>Upcoming 5 visits:</h6><hr>
+        <hr><h6>Upcoming visits:</h6><hr>
 
         <table class="table">
             <thead class="thead-dark">
@@ -74,9 +74,9 @@
                 </form>
             </tr>
         <%
+                count++;
+                if (count == 5) break;
                 }
-            count++;
-            if (count == 5) break;
             }
         %>
 
